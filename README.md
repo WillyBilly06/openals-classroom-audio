@@ -17,7 +17,7 @@ The ESP-NOW broadcast uses application-layer audio encryption; the broadcast pee
 
 ## Repository layout
 
-- `transmitter/`: ESP32 WROVER audio source, room control, Wi-Fi, and UDP streaming code.
+- `transmitter/`: Buildable ESP32 WROVER audio source with I2S capture, SBC encoding, encrypted ESP-NOW and UDP transport, room control, and Wi-Fi setup.
 - [5-inch receiver](receiver/p4_5inch/) and [7-inch receiver](receiver/p4_7inch/): separate ESP32-P4 projects with ALS receiver audio, display settings apps and assets, modified board support, ESP-Hosted host code, and OTA components.
 - `receiver/c6_bridge/`: ESP32-C6 bridge firmware source.
 - `receiver/c6_sdio_ota/` and `receiver/p4_c6_flasher/`: C6 OTA and P4/C6 flasher project source.
@@ -26,6 +26,8 @@ The ESP-NOW broadcast uses application-layer audio encryption; the broadcast pee
 - `third_party/esp-idf/`: Git submodule pointing to the official Espressif ESP-IDF v5.5.1 source.
 
 The original branch tracked about 64,000 files, largely generated `build/` output and copied dependencies. The original branch did not contain ESP-IDF SDK source; its `build/esp-idf/` paths were compiled output. This repository links the official SDK as a submodule and includes the display source and local components used by both P4 projects. Dependency-manager packages are resolved from the checked-in manifests; generated output and device firmware binaries are omitted.
+
+The transmitter source builds with ESP-IDF v5.5.1 for ESP32 WROVER after creating a local key header from the supplied example. Its original Cal Poly logo artwork and unused third-party LC3plus codec source are omitted from this release; the current transmitter uses the included SBC encoder. A firmware build has been verified, but device operation has not been retested from this public snapshot.
 
 See [ESP-IDF setup and dependency notes](docs/BUILDING.md) before attempting a firmware build.
 

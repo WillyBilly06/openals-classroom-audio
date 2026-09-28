@@ -27,6 +27,15 @@ On Windows, clone into a path without spaces. The pinned `espressif/esp_ipa` dep
 
 `transmitter/` is an ESP-IDF project for ESP32 WROVER. `receiver/c6_bridge/`, `receiver/c6_sdio_ota/`, and `receiver/p4_c6_flasher/` are separate ESP-IDF projects for their documented hardware targets. `receiver/p4_5inch/` and `receiver/p4_7inch/` are separate ESP32-P4 display projects. Each project has its own `CMakeLists.txt` and `sdkconfig.defaults`.
 
+Build the transmitter after preparing its local key header:
+
+```powershell
+cd transmitter
+idf.py build
+```
+
+The transmitter was compiled with ESP-IDF v5.5.1 for this release. The omitted LC3plus third-party source is not used by its SBC audio pipeline.
+
 Build the display variants independently from an ESP-IDF shell:
 
 ```powershell

@@ -349,7 +349,7 @@ static esp_err_t root_get(httpd_req_t *req)
         "</head><body>"
         "<header class=bar><div class=bar-inner>"
         "<strong class=bar-logo>OpenALS</strong>"
-        "<div class=bar-title><h1>CP Room Source</h1>"
+        "<div class=bar-title><h1>OpenALS Room Source</h1>"
         "<div class=sub>ESP-NOW Audio Transmitter</div></div>"
         "<button id=themeTog class=theme-tog type=button aria-label='Toggle dark mode'>"
         );
@@ -487,15 +487,6 @@ static esp_err_t root_get(httpd_req_t *req)
 
     httpd_resp_sendstr_chunk(req, "</body></html>");
     return httpd_resp_sendstr_chunk(req, NULL);
-}
-
-static esp_err_t logo_get(httpd_req_t *req)
-{
-    web_count_request();
-    httpd_resp_set_type(req, "image/png");
-    httpd_resp_set_hdr(req, "Cache-Control", "public, max-age=31536000, immutable");
-    set_close_header(req);
-    return httpd_resp_send_err(req, HTTPD_404_NOT_FOUND, "Logo omitted from public source");
 }
 
 static esp_err_t status_get(httpd_req_t *req)
@@ -721,7 +712,6 @@ esp_err_t source_web_start(void)
     reg_uri("/", HTTP_GET, root_get);
     reg_uri("/style.css", HTTP_GET, style_get);
     reg_uri("/app.js", HTTP_GET, app_js_get);
-    reg_uri("/CP_logo_rev.png", HTTP_GET, logo_get);
     reg_uri("/status", HTTP_GET, status_get);
     reg_uri("/raud/info.json", HTTP_GET, raud_info_get);
     reg_uri("/unlock", HTTP_POST, post_unlock);
