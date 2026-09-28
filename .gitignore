@@ -9,6 +9,11 @@
 **/build/
 **/build_*/
 **/managed_components/
+**/sdkconfig
+**/sdkconfig.old
+# ESP-IDF regenerates local absolute paths in these lockfiles
+receiver/p4_5inch/dependencies.lock
+receiver/p4_7inch/dependencies.lock
 **/.dart_tool/
 **/.gradle/
 **/Pods/
