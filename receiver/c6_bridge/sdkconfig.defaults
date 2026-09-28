@@ -1,0 +1,57 @@
+# =============================================
+# CrowPanel P4 – C6 Coprocessor sdkconfig.defaults
+# ESP-Hosted slave + ESP-NOW audio sink
+# =============================================
+
+# 1. CPU
+CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_160=y
+
+# 2. SDIO interface (P4 ↔ C6)
+CONFIG_ESP_SDIO_HOST_INTERFACE=y
+
+# 3. WiFi
+CONFIG_ESP_WIFI_NVS_ENABLED=y
+
+# 4. BT - controller only (for ESP-Hosted BLE passthrough)
+CONFIG_BT_ENABLED=y
+CONFIG_BT_CONTROLLER_ONLY=y
+CONFIG_BT_BLUEDROID_ENABLED=
+CONFIG_BT_LE_SLEEP_ENABLE=y
+CONFIG_BT_LE_HCI_INTERFACE_USE_RAM=y
+
+# 5. Partition Table
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+
+# 6. Flash
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
+
+# 7. OS
+CONFIG_FREERTOS_HZ=1000
+CONFIG_BOOTLOADER_COMPILER_OPTIMIZATION_PERF=y
+
+# 9. ESP-Hosted peer data transfer (for custom SDIO commands)
+CONFIG_ESP_HOSTED_ENABLE_PEER_DATA_TRANSFER=y
+CONFIG_ESP_HOSTED_MAX_CUSTOM_MSG_HANDLERS=16
+# Mempool MUST stay enabled — disabling it puts a heap_caps_malloc on every
+# audio packet (two of them per packet: one in slave_control.c for the
+# [msg_id|data] buffer, one in sdio_slave_api.c for the DMA send buffer).
+# At 125 packets/s that's 250 mallocs/s + 250 frees/s, and any heap
+# fragmentation event becomes an audible audio glitch on the P4.
+CONFIG_ESP_HOSTED_USE_MEMPOOL=y
+# pserial_task and the SDIO TX path run at this priority. Keeping it at 21
+# (the IDF default) means they get preempted by every Wi-Fi MAC task burst
+# at prio 23, which is the dominant cause of "late=" drops on the P4. 23
+# lets the SDIO write path compete with Wi-Fi instead of being starved by
+# it. Don't go above 23 — that risks starving the Wi-Fi driver itself.
+CONFIG_ESP_HOSTED_DEFAULT_TASK_PRIORITY=23
+
+# 10. Disable built-in app_main (we provide our own)
+# CONFIG_ESP_HOSTED_COPROCESSOR_APP_MAIN is not set
+
+# 11. Disable enterprise WiFi (save flash)
+CONFIG_ESP_WIFI_ENTERPRISE_SUPPORT=n
+
+# ECast beacon authentication on C6
+CONFIG_MBEDTLS_CMAC_C=y
+CONFIG_MBEDTLS_CCM_C=y

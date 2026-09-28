@@ -1,0 +1,15 @@
+# Device credentials and shared encryption keys
+**/source_raud_config.h
+**/ecast_secret.h
+**/secrets.*
+**/.env
+**/.env.*
+
+# Generated output
+**/build/
+**/build_*/
+**/managed_components/
+**/.dart_tool/
+**/.gradle/
+**/Pods/
+**/.DS_Store

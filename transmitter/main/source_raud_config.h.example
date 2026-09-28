@@ -1,0 +1,55 @@
+#error "Replace the example keys with random values, then remove this line"
+#pragma once
+
+#define RAUD_ENABLE_UDP_STUDENT_AUDIO        1
+#define RAUD_ENABLE_MULTICAST_DISCOVERY      1
+#define RAUD_ENABLE_MULTICAST_AUDIO          1
+#define RAUD_ENABLE_UNICAST_FALLBACK         0
+#define RAUD_ENABLE_MULTICAST_LOOPBACK       0
+#define RAUD_ENABLE_MULTICAST_SELFTEST       0
+
+#define RAUD_DISCOVERY_MCAST_ADDR            "239.10.10.1"
+#define RAUD_DISCOVERY_PORT                  6969
+#define RAUD_AUDIO_MCAST_ADDR                "239.10.10.10"
+#define RAUD_AUDIO_PORT                      6970
+#define RAUD_MCAST_TTL                       2
+
+#define RAUD_APP_BLOCKS_PER_PACKET           5
+#define RAUD_APP_PACKET_MS                   40
+#define RAUD_APP_TARGET_JITTER_MS            200
+
+/* Discovery and audio are intentionally separated.
+ * Discovery should work on the ESP32 setup AP even when AP audio is disabled.
+ * Audio can stay STA-only during normal operation to protect ESP-NOW.
+ */
+#define RAUD_ENABLE_STA_MULTICAST_DISCOVERY  1
+#define RAUD_ENABLE_AP_MULTICAST_DISCOVERY   1
+
+#define RAUD_ENABLE_STA_MULTICAST_AUDIO      1
+#define RAUD_ENABLE_AP_MULTICAST_AUDIO       1
+
+#define RAUD_APP_CHANNELS                    2
+#define RAUD_APP_SAMPLE_RATE                 48000
+#define RAUD_APP_BLOCK_SAMPLES               384
+#define RAUD_APP_BLOCK_US                    8000
+#define RAUD_APP_CODEC_SBC                   1
+#define RAUD_APP_KEY_ID                      1
+#define RAUD_APP_SBC_BITRATE_KBPS            249
+#define RAUD_APP_SBC_BLOCK_BYTES_MAX         300
+#define RAUD_APP_PAYLOAD_BYTES_MAX           (RAUD_APP_BLOCKS_PER_PACKET * RAUD_APP_SBC_BLOCK_BYTES_MAX)
+
+#define RAUD_FLAG_ENCRYPTED                  0x00000001u
+#define RAUD_FLAG_AUTHENTICATED              0x00000002u
+#define RAUD_FLAG_MONO                       0x00000004u
+
+static const unsigned char RAUD_DISCOVERY_AUTH_KEY[32] = {
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+
+static const unsigned char RAUD_AUDIO_ENC_KEY[32] = {
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+
+static const unsigned char RAUD_AUDIO_AUTH_KEY[32] = {
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};

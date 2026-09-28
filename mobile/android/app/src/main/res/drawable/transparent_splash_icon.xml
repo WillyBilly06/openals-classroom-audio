@@ -1,0 +1,14 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="432dp"
+    android:height="432dp"
+    android:viewportWidth="432"
+    android:viewportHeight="432">
+    <!-- Full-bleed icon painted in the splash background green (#154734). The
+         system masks it to a circle, so on stock Android the splash icon is a
+         solid green disc on the green window background = invisible. (Some OEM
+         skins such as Samsung/RedMagic ignore this and force the launcher icon
+         on the cold-start splash; that cannot be overridden from the app.) -->
+    <path
+        android:fillColor="#154734"
+        android:pathData="M0,0h432v432h-432z" />
+</vector>
