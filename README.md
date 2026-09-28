@@ -18,15 +18,20 @@ The ESP-NOW broadcast uses application-layer audio encryption; the broadcast pee
 ## Repository layout
 
 - `transmitter/`: ESP32 WROVER audio source, room control, Wi-Fi, and UDP streaming code.
-- `receiver/p4_5inch/`: receiver audio component for the CrowPanel ESP32-P4 board.
+- `receiver/p4_5inch/` and `receiver/p4_7inch/`: receiver audio, board integration, and OTA components for both CrowPanel ESP32-P4 variants.
 - `receiver/c6_bridge/`: ESP32-C6 bridge firmware source.
-- `mobile/`: Flutter application and Android/iOS project files.
+- `receiver/c6_sdio_ota/` and `receiver/p4_c6_flasher/`: C6 OTA and P4/C6 flasher project source.
+- `tools/`: board build/flash scripts and ESP32-P4/C6 firmware patch tools.
+- `mobile/`: Flutter application and platform project files.
+- `third_party/esp-idf/`: Git submodule pointing to the official Espressif ESP-IDF v5.5.1 source.
 
-The P4 receiver component depends on board support and vendor components from the original development environment. Those third-party trees are not bundled here. The receiver folder is therefore provided for code inspection and adaptation, not as a standalone build.
+The original branch tracked about 64,000 files, largely generated `build/` output and copied vendor/component trees. The original branch did not contain ESP-IDF SDK source; its `build/esp-idf/` paths were compiled output. This repository links the official SDK as a submodule and includes the project-controlled firmware, mobile, OTA, flasher, and setup code. Large generated output, device firmware binaries, and third-party board/demo trees are excluded.
+
+The P4 receiver projects still depend on vendor board/demo components from the original development environment. See [ESP-IDF setup and dependency notes](docs/BUILDING.md) before attempting a firmware build.
 
 ## Setup notes
 
-1. Install the matching ESP-IDF and Flutter toolchains for the target hardware.
+1. Clone with submodules and set up the included ESP-IDF toolchain. ESP-IDF v5.5.1 is pinned for the C6 OTA work; the P4 board demo originally documents v5.4 or later. See [BUILDING.md](docs/BUILDING.md).
 2. Copy `transmitter/main/source_raud_config.h.example` to `source_raud_config.h`. Replace all example keys with fresh random values and remove its `#error` line.
 3. Copy each `ecast_secret.h.example` to `ecast_secret.h` for the receiver targets. Set the same fresh Broadcast_Code on the bridge and decoder, and remove the `#error` line. Never commit the real headers.
 4. Configure Wi-Fi through the device interface. Change the example setup AP password in `transmitter/main/source_wifi.c` before flashing.
